@@ -59,7 +59,7 @@ namespace test_1
     };
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main1(string[] args)
         {
             List<Product> products = new List<Product>();
             string file = "products.txt";
