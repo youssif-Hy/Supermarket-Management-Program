@@ -45,6 +45,5 @@ namespace MainMethodsClass
             int padding = (Console.WindowWidth - text.Length) / 2;
             return new string(' ', Math.Max(padding, 0)) + text;
         }
-
     }
 }
