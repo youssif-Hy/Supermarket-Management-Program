@@ -32,10 +32,16 @@ namespace productSection
         public bool Expiry()
         {
             TimeSpan remaining = ExpiryDate - DateTime.Now;
-            return remaining.TotalDays <= 2;
+            if (remaining.TotalDays <= 2)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-
-        // Method
+        //Method
         public void Display()
         {
             if (File.Exists(Program.path))
