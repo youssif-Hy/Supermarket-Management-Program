@@ -17,6 +17,15 @@ namespace productSection
         public DateTime ProductionDate { get; set; }
         public DateTime ExpiryDate { get; set; }
 
+        public Product(string name, string category , string serialnumber , int quantity, DateTime productiondate , DateTime expirydate)
+        {
+            Name = name;
+            Category = category;
+            SerialNumber = serialnumber;
+            Quantity = quantity;
+            ProductionDate = productiondate;
+            ExpiryDate = expirydate;
+        }
 
         // Check days before expiry
         public bool Expiry()
