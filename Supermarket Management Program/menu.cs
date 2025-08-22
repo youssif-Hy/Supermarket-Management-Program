@@ -105,8 +105,8 @@ namespace UI_MenuClass
             Console.WriteLine(Main_Methods.CenterText("║               [ Press ENTER to Submit ]              ║"));
             Console.WriteLine(Main_Methods.CenterText("╚══════════════════════════════════════════════════════╝"));
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(55, 4); // اعادة تعيين موضع المؤشر لاسم المستخدم
-            string customer_name = Validation.ValiDateName(Console.ReadLine(),55,4,0,8);
+            Console.SetCursorPosition(55, 4);
+            customer_name = Validation.ValiDateName(Console.ReadLine(),55,4,0,8);
             CustomerMenu(customer_name); 
 
         }
@@ -119,8 +119,9 @@ namespace UI_MenuClass
             Console.WriteLine("1. View Products");
             Console.WriteLine("2. Add Product to Cart");
             Console.WriteLine("3. Remove Product from Cart");
-            Console.WriteLine("4. Checkout");
-            Console.WriteLine("5. Exit to Main Menu");
+            Console.WriteLine("4. View my cart")
+            Console.WriteLine("5. Checkout");
+            Console.WriteLine("6. Exit to Main Menu");
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("Enter your choice: ");
             Console.ResetColor();
@@ -131,7 +132,7 @@ namespace UI_MenuClass
                 choice = Validation.ValidateInput(Console.ReadLine(), 18, 4, 0, 5);
                 string errorMessage = "Invalid input, please enter a number between 1 and 5.";
                 // إذا كان الخيار غير صحيح، عرض رسالة الخطأ
-                if (choice < 1 || choice > 5)
+                if (choice < 1 || choice > 6)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Main_Methods.WriteSlow(errorMessage, 20, 0, 5);
@@ -164,11 +165,15 @@ namespace UI_MenuClass
                     // هنا يمكنك إضافة الكود لإزالة منتج من السلة
                     break;
                 case 4:
+                    //عرض عربة التسوق
+                    Console.WriteLine("View  my cart...");
+                    break;
+                case 5:
                     // إتمام عملية الشراء
                     Console.WriteLine("Checking out...");
                     // هنا يمكنك إضافة الكود لإتمام عملية الشراء
                     break;
-                case 5:
+                case 6:
                     // العودة إلى القائمة الرئيسية
                     Console.Clear();
                     MainMenu();

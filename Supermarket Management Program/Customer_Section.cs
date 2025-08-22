@@ -9,7 +9,7 @@ namespace Supermarket_Management_Program
 {
     class Customer_Section
     {
-        public string Name { get; set; }
+        public string customer_name { get; set; }
         List<Product> cart = new List<Product>();
         public void BuyProduct(Product product , int quantity)
         {
