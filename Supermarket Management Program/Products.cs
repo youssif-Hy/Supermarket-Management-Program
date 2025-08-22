@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Supermarket_Management_Program;
 
-namespace test_1
+namespace productSection
 {
-    class Product
+    public class Product 
     {
-        //Attributes
+
+        // Attributes
         public string Name { get; set; }
         public string Category { get; set; }
         public string SerialNumber { get; set; }
@@ -15,82 +17,55 @@ namespace test_1
         public DateTime ProductionDate { get; set; }
         public DateTime ExpiryDate { get; set; }
 
-        public Product(string name, string caregiry, string serialNumber, int quantity, DateTime productionDate, DateTime expiryDate)
+        
+        public Product(string name, string category, string serialNumber, int quantity, DateTime productionDate, DateTime expiryDate)
         {
             Name = name;
-            Category = caregiry;
+            Category = category;
             SerialNumber = serialNumber;
             Quantity = quantity;
             ProductionDate = productionDate;
             ExpiryDate = expiryDate;
         }
-        //فحص عدد الايام قبل انتهاء الصلاحية
+
+        // Check days before expiry
         public bool Expiry()
         {
             TimeSpan remaining = ExpiryDate - DateTime.Now;
-            if (remaining.TotalDays <= 2)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return remaining.TotalDays <= 2;
         }
-        //Method
+
+        // Method
         public void Display()
         {
-            Console.WriteLine($"Product name: {Name}");
-            Console.WriteLine($"Product category: {Category}");
-            Console.WriteLine($"Serial Number: {Quantity}");
-            Console.WriteLine($"Quantity: {Quantity}");
-            Console.WriteLine($"Production Date: {ProductionDate:dd:MM:yyyy}");
-            Console.WriteLine($"Expiry Date: {ExpiryDate:dd:MM:yyyy}");
-
-            if (Expiry())
+            if (File.Exists(Program.path))
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(">>Alert this product is near expiry!");
-                Console.ResetColor();
-            }
-        }
-
-
-    };
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            List<Product> products = new List<Product>();
-            string file = "products.txt";
-
-            if (File.Exists(file))
-            {
-
-                string[] fileLines = File.ReadAllLines(file);
-                foreach (string line in fileLines)
+                string[] fileLines = File.ReadAllLines(Program.path);
+                foreach (string line1 in fileLines)
                 {
-                    if (line == "")
+                    if (line1 == "")
                     {
                         continue;
                     }
-                    string[] part = line.Split(',');
-                    Product p = new Product(part[0], part[1], part[2], int.Parse(part[3]), DateTime.Parse(part[4]), DateTime.Parse(part[5]));
-                    products.Add(p);
+                    string[] part = line1.Split(',');
+                    Product productinfo = new Product(part[0], part[1], part[2], int.Parse(part[3]), DateTime.Parse(part[4]), DateTime.Parse(part[5]));
+                    Program.products.Add(productinfo);
                 }
-
             }
             else
             {
                 Console.WriteLine("File not Exist");
             }
-
-            foreach (Product proDuct in products)
+            Console.WriteLine("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+--------------+");
+            Console.WriteLine("| Name            | Category        | Serial Number   | Qty     | Production Date | Expiry Date     | Status       |");
+            Console.WriteLine("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+--------------+");
+            string line = "+-----------------+-----------------+-----------------+---------+-----------------+-----------------+--------------+";
+            foreach (Product proDuct in Program.products)
             {
-                proDuct.Display();
-                Console.WriteLine("=======");
+                string s = proDuct.Expiry() ? "💀 Near Expiry" : "Valid";
+                Console.WriteLine($"| {proDuct.Name,-15} | {proDuct.Category,-15} | {proDuct.SerialNumber,-10} | {proDuct.Quantity,-5} | {proDuct.ProductionDate:dd-MM-yyyy,-15} | {proDuct.ExpiryDate:dd-MM-yyyy,-15} | {s,-20} |");
+                Console.WriteLine(line);
             }
-
         }
     }
 }

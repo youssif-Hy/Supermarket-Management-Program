@@ -35,5 +35,47 @@ namespace valid
                 }
             }
         }
+        public static string ValiDateName(string name, int xaxis, int yaxis, int xaxis1, int yaxis1)
+        {
+            string title = "invalid name, Please enter a valid name (at least 8 characters,first and last name must be more than 3 characters) ,try again. ";
+            while (true)
+            {
+                // التحقق من طول الاسم ووجود مسافة بين الاسم الأول والاسم الأخير
+                if (name.Length > 7 && name.Contains(' '))
+                {
+                    // تقسيم الاسم إلى أجزاء باستخدام المسافة كفاصل
+                    string[] nameParts = name.Split(' ');
+                    // التحقق من أن الاسم الأول والاسم الأخير يتكونان من أحرف فقط وطولهما أكبر من 3 أحرف
+                    if (nameParts[0].Length > 3 && nameParts[0].All(char.IsLetter) && nameParts[1].Length > 3 && nameParts[1].All(char.IsLetter))
+                    {
+                        Main_Methods.space(title, xaxis1, yaxis1);
+                        return name;
+                    }
+                    // إذا لم يكن الاسم صالحًا، يطلب من المستخدم إدخال اسم آخر
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.SetCursorPosition(xaxis1, yaxis1);
+                        Console.Write(title);
+                        Main_Methods.space(name, xaxis, yaxis);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.SetCursorPosition(xaxis, yaxis);
+                        name = Console.ReadLine();
+                    }
+                }
+                // إذا لم يكن الاسم صالحًا، يطلب من المستخدم إدخال اسم آخر
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.SetCursorPosition(xaxis1, yaxis1);
+                    Console.Write(title);
+                    Main_Methods.space(name, xaxis, yaxis);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(xaxis, yaxis);
+                    name = Console.ReadLine();
+                }
+            }
+        }
+
     }
 }
