@@ -151,10 +151,11 @@ namespace UI_MenuClass
                 case 1:
                     // عرض المنتجات
                     AdminModule.ViewProducts(false);
-                    AdminMenu();
+                    CustomerMenu();
                     break;
                 case 2:
                     Product.Display(false);
+                    CustomerMenu();
                     break;
                 case 3:
                     // إضافة منتج إلى السلة
@@ -267,6 +268,7 @@ namespace UI_MenuClass
                     break;
                 case 2:
                     Product.Display(true);
+                    AdminMenu();
                     break;
                 case 3:
                     // إضافة منتج
