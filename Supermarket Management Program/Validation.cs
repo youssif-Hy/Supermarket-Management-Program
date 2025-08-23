@@ -37,6 +37,30 @@ namespace valid
                 }
             }
         }
+        public static int ValidateQuantity(string input, int xaxis, int yaxis, int xaxis1, int yaxis1)
+        {
+            int value;
+            string title = "Invalid input ,try again plese enter valid input";
+            while (true)
+            {
+                // التحقق من أن الإدخال هو رقم صحيح
+                if (!int.TryParse(input, out value) && value >3)
+                {
+                    Main_Methods.space(title, xaxis1, yaxis1);
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Main_Methods.WriteSlow(title, 20, xaxis1, yaxis1);
+                    Main_Methods.space(input, xaxis, yaxis);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(xaxis, yaxis);
+                    input = Console.ReadLine();
+                }
+                else
+                {
+                    Main_Methods.space(title, xaxis1, yaxis1);
+                    return value;
+                }
+            }
+        }
         public static string ValiDateName(string name, int xaxis, int yaxis, int xaxis1, int yaxis1)
         {
             string title = "invalid name, Please enter a valid name (at least 8 characters,first and last name must be more than 3 characters) ,try again. ";
@@ -86,7 +110,7 @@ namespace valid
                 string error = "The product is exist already or the quantity is to much please enter new product.";
 
                 Product productfound = Program.products.FirstOrDefault(p => p.Name.ToLower() == name.ToLower());
-                if (name.Length > 3 && !name.Contains("  ")&& productfound != null && productfound.Quantity >= 3)
+                if (name.Length > 3 && !name.Contains("  ")&&name.All(char.IsLetter) && productfound != null && productfound.Quantity >= 3)
                 {
                     Main_Methods.space(error, xaxis1, yaxis1);
                     return name;
@@ -147,6 +171,16 @@ namespace valid
                     {
                         Main_Methods.space(errorM, xaxis1, yaxis1);
                         return prod;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.SetCursorPosition(xaxis1, yaxis1);
+                        Console.Write(errorM);
+                        Main_Methods.space(production, xaxis, yaxis);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.SetCursorPosition(xaxis, yaxis);
+                        production = Console.ReadLine();
                     }
                 }
                 // إذا كان تاريخ الميلاد في المستقبل، يطلب من المستخدم إدخال تاريخ آخر

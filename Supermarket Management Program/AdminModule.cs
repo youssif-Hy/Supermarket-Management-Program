@@ -93,7 +93,7 @@ namespace Admin
             Console.SetCursorPosition(57, 4);
             string category =Validation.ValidCategory( Console.ReadLine(),57,4,0,13);
             Console.SetCursorPosition(57, 5);
-            int qty = Validation.ValidateInput(Console.ReadLine(),57,5,0,13);
+            int qty = Validation.ValidateQuantity(Console.ReadLine(),57,5,0,13);
             Console.SetCursorPosition(57, 6);
             DateTime production = Validation.ValidProduction(Console.ReadLine(),57,6,0,13);
             Console.SetCursorPosition(57, 7);
