@@ -233,7 +233,7 @@ namespace UI_MenuClass
             Console.WriteLine("3. Add Product");
             Console.WriteLine("4. Remove Product");
             Console.WriteLine("5. view Expiry Alerts");
-            Console.WriteLine("6. Chech Products Expiry");
+            Console.WriteLine("6. Chich Products Expiry");
             Console.WriteLine("7. Exit to Main Menu");
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("Enter your choice: ");

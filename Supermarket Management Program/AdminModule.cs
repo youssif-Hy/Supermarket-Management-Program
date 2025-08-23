@@ -197,7 +197,7 @@ namespace Admin
             if (Program.ReadFromFill())
                 menu.AdminMenu();
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
-            Console.WriteLine(Main_Methods.CenterText("|                                    Chech Products Expir                                   |"));
+            Console.WriteLine(Main_Methods.CenterText("|                                    Chich Products Expir                                   |"));
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
             Console.WriteLine(Main_Methods.CenterText("| Please enter the Name of the product you went cheched it:                                 |"));
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
