@@ -14,68 +14,30 @@ namespace Customer_Section
     {
         public static string customer_name { get; set; }
         public static List<Product> cart = new List<Product>();
-        Product product;
-        public static void BuyProduct()
+        public static void BuyProduct(string name ,int quantity)
         {
             Console.Clear();
             Console.ResetColor();
             // Check if the product is available in the store
-            List<Product> productsForBuyProduct = new List<Product>();
-            if (File.Exists(Program.path))
-            {
-                string[] fileLines = File.ReadAllLines(Program.path);
-                foreach (string line1 in fileLines)
-                {
-                    if (line1 == "")
-                    {
-                        continue;
-                    }
-                    string[] part = line1.Split(',');
-                    Product productinfo = new Product(part[0], part[1], part[2], int.Parse(part[3]), DateTime.Parse(part[4]), DateTime.Parse(part[5]));
-                    productsForBuyProduct.Add(productinfo);
-                }
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Main_Methods.WriteSlow("File not Exist", 20, 0, 0);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("press any kay to rutern Customer Menu...");
-                Console.ResetColor();
-                Console.ReadKey();
-                Console.Clear();
+            if (Program.ReadFromFill())
                 menu.CustomerMenu();
-            }
-            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
-            Console.WriteLine(Main_Methods.CenterText("|                                     add to cart                                           |"));
-            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
-            Console.WriteLine(Main_Methods.CenterText("| Please enter the Serial Number of the product to add prodct to cart:                      |"));
-            Console.WriteLine(Main_Methods.CenterText("| Plaese enter the Quantity you want:                                                       |"));
-            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
-            // البحث عن المنتج الذي سيتم حذفه
-            Console.SetCursorPosition(75, 5);
-            string serialNumber = Console.ReadLine();
-            int quantity = Validation.ValidateInput(Console.ReadLine(),55,6,0,8);
-            Console.Clear();
-            Product productsToBuyProduct = productsForBuyProduct.FirstOrDefault(p => p.SerialNumber == serialNumber);
+            Product productsToBuyProduct = Program.products.FirstOrDefault(p => p.Name.ToLower() == name.ToLower());
             if (productsToBuyProduct != null && productsToBuyProduct.Quantity >= quantity)
             {
-                productsForBuyProduct.Remove(productsToBuyProduct);
+                Program.products.Remove(productsToBuyProduct);
                 productsToBuyProduct.Quantity -= quantity;
-                productsForBuyProduct.Add(productsToBuyProduct);
-                productsToBuyProduct.Quantity = quantity;
-                cart.Add(productsToBuyProduct);
-                RewriteInFill(productsForBuyProduct);
+                Program.products.Add(productsToBuyProduct);
+                RewriteInFill(Program.products);
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("The product has been added to your cart.");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Main_Methods.WriteSlow("The product is not available or the quantity is not enough.",20,0,8);
+                Main_Methods.WriteSlow("The product is not available or the quantity is not enough.\n",20,0,8);
             }
             Console.ForegroundColor= ConsoleColor.DarkGray;
-            Console.Write("press any kay to rutern Customer Menu...");
+            Console.Write("press any kay to rutern your Menu...");
             Console.ResetColor();
             Console.ReadKey();
             Console.Clear();
@@ -95,8 +57,11 @@ namespace Customer_Section
                         continue;
                     }
                     string[] part = line1.Split(',');
-                    Product productinfo = new Product(part[0], part[1], part[2], int.Parse(part[3]), DateTime.Parse(part[4]), DateTime.Parse(part[5]));
-                    RemoveProduct.Add(productinfo);
+                    Product productinfo = new Product(part[0], part[1], int.Parse(part[3]), DateTime.Parse(part[4]), DateTime.Parse(part[5]));
+                    if (Validation.isExist(RemoveProduct, part[0]))
+                    {
+                        RemoveProduct.Add(productinfo);
+                    }
                 }
             }
             else
@@ -113,13 +78,13 @@ namespace Customer_Section
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
             Console.WriteLine(Main_Methods.CenterText("|                                    Remove from cart                                       |"));
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
-            Console.WriteLine(Main_Methods.CenterText("| Please enter the Serial Number of the product to add prodct to cart:                      |"));
+            Console.WriteLine(Main_Methods.CenterText("| Please enter the Name of the product to add prodct to cart:                               |"));
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
             Console.SetCursorPosition(75, 4);
-            string serialNumber = Console.ReadLine();
+            string name = Console.ReadLine();
 
-            Product RemoveProductfromcart = cart.FirstOrDefault(p => p.SerialNumber == serialNumber);
-            Product productsToAddQtyProduct = RemoveProduct.FirstOrDefault(p => p.SerialNumber == serialNumber);
+            Product RemoveProductfromcart = cart.FirstOrDefault(p => p.Name == name);
+            Product productsToAddQtyProduct = RemoveProduct.FirstOrDefault(p => p.Name == name);
 
             if (RemoveProductfromcart != null && productsToAddQtyProduct == null)
             {
@@ -167,17 +132,22 @@ namespace Customer_Section
                 Console.Clear();
                 menu.CustomerMenu();
             }
-            Console.WriteLine(Main_Methods.CenterText("+-----------------+----------+--------------------+"));
-            Console.WriteLine(Main_Methods.CenterText("| Name            | Qty      | Serial Number      |"));
-            Console.WriteLine(Main_Methods.CenterText("+-----------------+----------+--------------------+"));
+            Console.WriteLine(Main_Methods.CenterText("+-----------------+----------+"));
+            Console.WriteLine(Main_Methods.CenterText("| Name            | Qty      |"));
+            Console.WriteLine(Main_Methods.CenterText("+-----------------+----------+"));
             foreach (var item in cart)
             {
-                Console.WriteLine(Main_Methods.CenterText($"| {item.Name,-15}(s) | {item.Quantity,-5} | {item.SerialNumber,-10} |"));
+                Console.WriteLine(Main_Methods.CenterText($"| {item.Name,-15}(s) | {item.Quantity,-5} |"));
                 Console.WriteLine(Main_Methods.CenterText("+-----------------+----------+--------------------+"));
             }
-            Console.WriteLine("Thank you for your purchase!");
-
+            Console.WriteLine($"Thanks {customer_name} for your purchase!");
             cart.Clear(); // Clear the cart after checkout
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\nPress any key to return to Admin Menu...");
+            Console.ResetColor();
+            Console.ReadKey();
+            Console.Clear();
+            return;
 
         }
         public static void ViweCart()
@@ -186,13 +156,13 @@ namespace Customer_Section
             Console.ResetColor();
             if (cart.Count != 0)
             {
-                Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+"));
-                Console.WriteLine(Main_Methods.CenterText("| Name            | Category        | Serial Number   | Qty     | Production Date | Expiry Date     |"));
-                Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+"));
-                string line = "+-----------------+-----------------+-----------------+---------+-----------------+-----------------+";
+                Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+---------+-----------------+-----------------+"));
+                Console.WriteLine(Main_Methods.CenterText("| Name            | Category        | Qty     | Production Date | Expiry Date     |"));
+                Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+---------+-----------------+-----------------+"));
+                string line = "+-----------------+-----------------+---------+-----------------+-----------------+";
                 foreach (Product proDuct in cart)
                 {
-                    Console.WriteLine(Main_Methods.CenterText($"| {proDuct.Name,-15} | {proDuct.Category,-15} | {proDuct.SerialNumber,-10} | {proDuct.Quantity,-5} | {proDuct.ProductionDate:dd-MM-yyyy,-15} | {proDuct.ExpiryDate:dd-MM-yyyy,-15} |"));
+                    Console.WriteLine(Main_Methods.CenterText($"| {proDuct.Name,-15} | {proDuct.Category,-15} | {proDuct.Quantity,-5} | {proDuct.ProductionDate,-15:dd-MM-yyyy} | {proDuct.ExpiryDate,-15:dd-MM-yyyy} |"));
                     Console.WriteLine(Main_Methods.CenterText(line));
                 }
             }

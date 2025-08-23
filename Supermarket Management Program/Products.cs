@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using MainMethodsClass;
 using Supermarket_Management_Program;
+using valid;
 
 namespace productSection
 {
@@ -11,15 +12,13 @@ namespace productSection
         // Attributes
         public  string Name { get; set; }
         public  string Category { get; set; }
-        public  string SerialNumber { get; set; }
         public  int Quantity { get; set; }
         public  DateTime ProductionDate { get; set; }
         public  DateTime ExpiryDate { get; set; }
-        public Product(string name, string category, string serialNumber, int quantity, DateTime productionDate, DateTime expiryDate)
+        public Product(string name, string category, int quantity, DateTime productionDate, DateTime expiryDate)
         {
             Name = name;
             Category = category;
-            SerialNumber = serialNumber;
             Quantity = quantity;
             ProductionDate = productionDate;
             ExpiryDate = expiryDate;
@@ -51,8 +50,11 @@ namespace productSection
                         continue;
                     }
                     string[] part = line1.Split(',');
-                    Product productinfo = new Product(part[0], part[1], part[2], int.Parse(part[3]), DateTime.Parse(part[4]), DateTime.Parse(part[5]));
-                    Program.products.Add(productinfo);
+                    Product productinfo = new Product(part[0], part[1], int.Parse(part[2]), DateTime.Parse(part[3]), DateTime.Parse(part[4]));
+                    if (Validation.isExist(Program.products, part[0]))
+                    {
+                        Program.products.Add(productinfo);
+                    }
                 }
             }
             else
@@ -65,15 +67,23 @@ namespace productSection
                 Console.ReadKey();
                 Console.Clear();
             }
-            Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+--------------+"));
-            Console.WriteLine(Main_Methods.CenterText("| Name            | Category        | Serial Number   | Qty     | Production Date | Expiry Date     | Status       |"));
-            Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+--------------+"));
-            string line = "+-----------------+-----------------+-----------------+---------+-----------------+-----------------+--------------+";
+            Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+---------+-----------------+-----------------+--------------+"));
+            Console.WriteLine(Main_Methods.CenterText("| Name            | Category        | Qty     | Production Date | Expiry Date     | Status       |"));
+            Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+---------+-----------------+-----------------+--------------+"));
+            string line = "+-----------------+-----------------+---------+-----------------+-----------------+--------------+";
             foreach (Product proDuct in Program.products)
             {
-                string s = proDuct.Expiry() ? "💀 Near Expiry" : "Valid";
-                Console.WriteLine(Main_Methods.CenterText($"| {proDuct.Name,-15} | {proDuct.Category,-15} | {proDuct.SerialNumber,-10} | {proDuct.Quantity,-5} | {proDuct.ProductionDate:dd-MM-yyyy,-15} | {proDuct.ExpiryDate:dd-MM-yyyy,-15} | {s,-20} |"));
-                Console.WriteLine(line);
+                string s = proDuct.Expiry() ? "💀Near Expiry" : "Valid";
+                Console.WriteLine(
+                    Main_Methods.CenterText(
+                        $"| {proDuct.Name,-15} " +
+                        $"| {proDuct.Category,-15} " +
+                        $"| {proDuct.Quantity,-7} " +
+                        $"| {proDuct.ProductionDate,-14:dd/MM/yyyy}  " +
+                        $"| {proDuct.ExpiryDate,-15:dd/MM/yyyy} " +
+                        $"|{s,-11} |"
+                    )
+                ); Console.WriteLine(Main_Methods.CenterText(line));
             }
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("press any kay to rutern Customer Menu...");

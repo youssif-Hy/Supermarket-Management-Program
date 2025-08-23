@@ -148,12 +148,12 @@ namespace UI_MenuClass
             {
                 case 1:
                     // عرض المنتجات
-                    AdminModule.ViewProducts();
+                    AdminModule.ViewProducts(false);
                     CustomerMenu();
                     break;
                 case 2:
                     // إضافة منتج إلى السلة
-                    Customer.BuyProduct();
+                    MenuBuyProduct();
                     CustomerMenu();
                     break;
                 case 3:
@@ -271,7 +271,7 @@ namespace UI_MenuClass
                     break;
                 case 4:
                     // عرض كل المنتجات القريبة من اتهاء الصلاحية
-                    AdminModule.viewExpiryAlerts();
+                    AdminModule.ViewExpiryAlerts();
                     AdminMenu();
                     break;
                 case 5:
@@ -280,6 +280,23 @@ namespace UI_MenuClass
                     MainMenu();
                     break;
             }
+        }
+        public static void MenuBuyProduct()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
+            Console.WriteLine(Main_Methods.CenterText("|                                     add to cart                                           |"));
+            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
+            Console.WriteLine(Main_Methods.CenterText("| Please enter the Name of the product to add prodct to cart:                               |"));
+            Console.WriteLine(Main_Methods.CenterText("| Plaese enter the Quantity you want:                                                       |"));
+            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
+            // البحث عن المنتج الذي سيتم حذفه
+            Console.ResetColor();
+            Console.SetCursorPosition(74, 3);
+            string name = Console.ReadLine();
+            Console.SetCursorPosition(50, 4);
+            int quantity = Validation.ValidateInput(Console.ReadLine(), 55, 4, 0, 8);
+            Customer.BuyProduct(name, quantity);
         }
     }
 }
