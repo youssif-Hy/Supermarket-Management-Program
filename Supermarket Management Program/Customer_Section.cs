@@ -119,7 +119,9 @@ namespace Customer_Section
             string serialNumber = Console.ReadLine();
 
             Product RemoveProductfromcart = cart.FirstOrDefault(p => p.SerialNumber == serialNumber);
-            if (RemoveProductfromcart != null)
+            Product productsToAddQtyProduct = RemoveProduct.FirstOrDefault(p => p.SerialNumber == serialNumber);
+
+            if (RemoveProductfromcart != null && productsToAddQtyProduct == null)
             {
                 cart.Remove(RemoveProductfromcart);
                 RemoveProduct.Add(RemoveProductfromcart);
@@ -127,10 +129,20 @@ namespace Customer_Section
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Main_Methods.WriteSlow("The product has been removed from your cart.",20,0,6);
             }
+            else if(RemoveProductfromcart != null && productsToAddQtyProduct != null)
+            {
+                RemoveProduct.Remove(productsToAddQtyProduct);
+                productsToAddQtyProduct.Quantity += RemoveProductfromcart.Quantity;
+                cart.Remove(RemoveProductfromcart);
+                RemoveProduct.Add(productsToAddQtyProduct);
+                RewriteInFill(RemoveProduct);
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Main_Methods.WriteSlow("The product has been removed from your cart.", 20, 0, 6);
+            }
             else
             {
-                Console.ForegroundColor= ConsoleColor.DarkRed;
-                Main_Methods.WriteSlow("The product is not in the cart or the serial number is incorrect",20,0,6);
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Main_Methods.WriteSlow("The product is not in the cart or the serial number is incorrect", 20, 0, 6);
             }
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("press any kay to rutern Customer Menu...");
