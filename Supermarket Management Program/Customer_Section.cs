@@ -137,20 +137,32 @@ namespace Customer_Section
                 string line = "+-----------------+-----------------+---------+-----------------+-----------------+";
                 foreach (Product proDuct in cart)
                 {
-                    Console.WriteLine(Main_Methods.CenterText($"| {proDuct.Name,-15} | {proDuct.Category,-15} | {proDuct.Quantity,-5} | {proDuct.ProductionDate,-15:dd-MM-yyyy} | {proDuct.ExpiryDate,-15:dd-MM-yyyy} |"));
+                    Console.WriteLine
+                    (
+                      Main_Methods.CenterText
+                      (
+                          $"| {proDuct.Name,-15} " +
+                          $"| {proDuct.Category,-15} " +
+                          $"| {proDuct.Quantity,-7} " +
+                          $"| {proDuct.ProductionDate,-14:dd/MM/yyyy}  " +
+                          $"| {proDuct.ExpiryDate,-15:dd/MM/yyyy} " +
+                          $"|"
+                      )
+                    );
                     Console.WriteLine(Main_Methods.CenterText(line));
                 }
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-               Main_Methods.WriteSlow("Your cart is empty.",20,0,0);
+                Main_Methods.WriteSlow("Your cart is empty.", 20, 0, 0);
             }
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write("press any kay to rutern Customer Menu...");
-            Console.ResetColor();
-            Console.ReadKey();
-            Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write("press any kay to rutern Customer Menu...");
+                Console.ResetColor();
+                Console.ReadKey();
+                Console.Clear();
+            
         }
         public static void RewriteInFill(List<Product> products)
         {
