@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UI_MenuClass;
-using System.IO;
-using Admin;
 using productSection;
 namespace Supermarket_Management_Program
 {

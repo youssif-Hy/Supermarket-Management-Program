@@ -2,13 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using MainMethodsClass;
-using UI_MenuClass;
 using productSection;
-using valid;
+using UI_MenuClass;
 namespace Admin
 {
     public class AdminModule
@@ -29,6 +26,7 @@ namespace Admin
         };
         public static void ViewProducts()
         {
+            Console.Clear();
             List<Product> products = new List<Product>();
             if (File.Exists(Program.path))
             {
@@ -44,26 +42,34 @@ namespace Admin
                     products.Add(productinfo);
                 }
             }
-            else
+            else if (!File.Exists(Program.path))
             {
-                Console.WriteLine("File not Exist");
+                Main_Methods.WriteSlow("File not Exist\n", 20, 0, 0);
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write("press any kay to rutern Customer Menu...");
+                Console.ResetColor();
+                Console.ReadKey();
+                Console.Clear();
 
             }
-            Console.WriteLine("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+");
-            Console.WriteLine("| Name            | Category        | Serial Number   | Qty     | Production Date | Expiry Date     |");
-            Console.WriteLine("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+");
-            string line = "+-----------------+-----------------+-----------------+---------+-----------------+-----------------+";
-            foreach (Product proDuct in products)
+            else
             {
-                if (proDuct == null || proDuct.Quantity == 0 || proDuct.Expiry())
+                Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+"));
+                Console.WriteLine(Main_Methods.CenterText("| Name            | Category        | Serial Number   | Qty     | Production Date | Expiry Date     |"));
+                Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+"));
+                string line = "+-----------------+-----------------+-----------------+---------+-----------------+-----------------+";
+                foreach (Product proDuct in products)
                 {
-                    continue;
+                    if (proDuct == null || proDuct.Quantity == 0 || proDuct.Expiry())
+                    {
+                        continue;
+                    }
+                    Console.WriteLine(Main_Methods.CenterText($"| {proDuct.Name,-15} | {proDuct.Category,-15} | {proDuct.SerialNumber,-10} | {proDuct.Quantity,-5} | {proDuct.ProductionDate:dd-MM-yyyy,-15} | {proDuct.ExpiryDate:dd-MM-yyyy,-15} |"));
+                    Console.WriteLine(Main_Methods.CenterText(line));
                 }
-                Console.WriteLine($"| {proDuct.Name,-15} | {proDuct.Category,-15} | {proDuct.SerialNumber,-10} | {proDuct.Quantity,-5} | {proDuct.ProductionDate:dd-MM-yyyy,-15} | {proDuct.ExpiryDate:dd-MM-yyyy,-15} |");
-                Console.WriteLine(line);
             }
         }
-        public static void AddProduct(Product product)
+        public static void AddProduct()
         {
             List<Product> productsForAdd = new List<Product>();
             if (File.Exists(Program.path))
@@ -86,37 +92,35 @@ namespace Admin
             Console.WriteLine(Main_Methods.CenterText("+------------------------------------------------------+"));
             Console.WriteLine(Main_Methods.CenterText("|                     Add Product                      |"));
             Console.WriteLine(Main_Methods.CenterText("+------------------------------------------------------+"));
-            Console.WriteLine(Main_Methods.CenterText("|  > Product Name        :                              |"));
-            Console.WriteLine(Main_Methods.CenterText("|  > Category            :                              |"));
-            Console.WriteLine(Main_Methods.CenterText("|  > Serial Number       :                              |"));
-            Console.WriteLine(Main_Methods.CenterText("|  > Quantity            :                              |"));
-            Console.WriteLine(Main_Methods.CenterText("|  > Production Date     :                              |"));
-            Console.WriteLine(Main_Methods.CenterText("|  > Expiry Date         :                              |"));
+            Console.WriteLine(Main_Methods.CenterText(" | > Product Name        :                              |"));
+            Console.WriteLine(Main_Methods.CenterText(" | > Category            :                              |"));
+            Console.WriteLine(Main_Methods.CenterText(" | > Serial Number       :                              |"));
+            Console.WriteLine(Main_Methods.CenterText(" | > Quantity            :                              |"));
+            Console.WriteLine(Main_Methods.CenterText(" | > Production Date     :                              |"));
+            Console.WriteLine(Main_Methods.CenterText(" | > Expiry Date         :                              |"));
             Console.WriteLine(Main_Methods.CenterText("+------------------------------------------------------+"));
             Console.WriteLine(Main_Methods.CenterText("| [ Please enter the product information above ]       |"));
             Console.WriteLine(Main_Methods.CenterText("| [ Press ENTER after each input to continue ]         |"));
             Console.WriteLine(Main_Methods.CenterText("+------------------------------------------------------+"));
             Console.ResetColor();
 
-            // إدخال القيم داخل أماكنها
-            Console.SetCursorPosition(35, 3);
+            Console.SetCursorPosition(57, 3);
             string name = Console.ReadLine();
-            Console.SetCursorPosition(35, 4);
+            Console.SetCursorPosition(57, 4);
             string category = Console.ReadLine();
-            Console.SetCursorPosition(35, 5);
+            Console.SetCursorPosition(57, 5);
             string serial = Console.ReadLine();
-            Console.SetCursorPosition(35, 6);
+            Console.SetCursorPosition(57, 6);
             int qty = int.Parse(Console.ReadLine());
-            Console.SetCursorPosition(35, 7);
+            Console.SetCursorPosition(57, 7);
             DateTime production = DateTime.Parse(Console.ReadLine());
-            Console.SetCursorPosition(35, 8);
+            Console.SetCursorPosition(57, 8);
             DateTime expiry = DateTime.Parse(Console.ReadLine());
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.SetCursorPosition(0, 13);
-            Console.WriteLine("\nProduct saved successfully!");
+            Main_Methods.WriteSlow("Product saved successfully!\n",20,0,13);
             Console.ResetColor();
             Product productinfo1 = new Product(name, category, serial, qty, production, expiry);
-            // إضافة المنتج إلى القائمة
             productsForAdd.Add(productinfo1);
             List<string> lines = new List<string>();
             foreach (Product proDuct in productsForAdd)
@@ -128,16 +132,14 @@ namespace Admin
                 lines.Add($"{proDuct.Name},{proDuct.Category},{proDuct.SerialNumber},{proDuct.Quantity},{proDuct.ProductionDate},{proDuct.ExpiryDate}");
 
             }
-            // كتابة البيانات في الملف
             File.WriteAllLines(Program.path, lines);
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("\nPress any key to return to Admin Menu...");
             Console.ResetColor();
             Console.ReadKey();
             Console.Clear();
-            menu.AdminMenu();
         }
-        public static void DeleteProduct(string serialNumber)
+        public static void DeleteProduct()
         {
             List<Product> productsForDelete = new List<Product>();
             if (File.Exists(Program.path))
@@ -158,15 +160,14 @@ namespace Admin
             {
                 Console.WriteLine("File not Exist");
             }
-            Console.WriteLine("+-------------------------------------------------------------------------+");
-            Console.WriteLine("|                               Delete Product                            |");
-            Console.WriteLine("+-------------------------------------------------------------------------+");
-            Console.WriteLine("| Please enter the Serial Number of the product to delete:                |");
-            Console.WriteLine("+-------------------------------------------------------------------------+");
+            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------+"));
+            Console.WriteLine(Main_Methods.CenterText("|                               Delete Product                            |"));
+            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------+"));
+            Console.WriteLine(Main_Methods.CenterText("| Please enter the Serial Number of the product to delete:                |"));
+            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------+"));
             // البحث عن المنتج الذي سيتم حذفه
             Console.SetCursorPosition(65, 5);
-            serialNumber = Console.ReadLine();
-            Console.Clear();
+            string serialNumber = Console.ReadLine();
             Product productToDelete = productsForDelete.FirstOrDefault(p => p.SerialNumber == serialNumber);
             if (productToDelete != null)
             {
@@ -183,24 +184,22 @@ namespace Admin
                 }
                 File.WriteAllLines(Program.path, lines);
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("\nProduct deleted successfully!");
+                Main_Methods.WriteSlow("Product deleted successfully!\n",20,0,7);
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine("\nPress any key to return to Admin Menu...");
+                Console.WriteLine("Press any key to return to Admin Menu...");
                 Console.ResetColor();
                 Console.ReadKey();
                 Console.Clear();
-                menu.AdminMenu();
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("\nProduct not found!");
+                Main_Methods.WriteSlow("Product not found!\n",20,0,7);
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine("\nPress any key to return to Admin Menu...");
                 Console.ResetColor();
                 Console.ReadKey();
                 Console.Clear();
-                menu.AdminMenu();
             }
         }
         public static void viewExpiryAlerts()
@@ -222,11 +221,18 @@ namespace Admin
             }
             else
             {
-                Console.WriteLine("File not Exist");
+                Console.ForegroundColor= ConsoleColor.DarkRed;
+                Main_Methods.WriteSlow("File not Exist",20,0,0);
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write("press any kay to rutern Customer Menu...");
+                Console.ResetColor();
+                Console.ReadKey();
+                Console.Clear();
+                menu.AdminMenu();
             }
-            Console.WriteLine("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+");
-            Console.WriteLine("| Name            | Category        | Serial Number   | Qty     | Production Date | Expiry Date     |");
-            Console.WriteLine("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+");
+            Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+"));
+            Console.WriteLine(Main_Methods.CenterText("| Name            | Category        | Serial Number   | Qty     | Production Date | Expiry Date     |"));
+            Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+-----------------+---------+-----------------+-----------------+"));
             string line = "+-----------------+-----------------+-----------------+---------+-----------------+-----------------+";
             foreach (Product proDuct in productsForAlert)
             {
@@ -234,10 +240,9 @@ namespace Admin
                 {
                     continue;
                 }
-                Console.WriteLine($"| {proDuct.Name,-15} | {proDuct.Category,-15} | {proDuct.SerialNumber,-10} | {proDuct.Quantity,-5} | {proDuct.ProductionDate:dd-MM-yyyy,-15} | {proDuct.ExpiryDate:dd-MM-yyyy,-15} |");
-                Console.WriteLine(line);
+                Console.WriteLine(Main_Methods.CenterText($"| {proDuct.Name,-15} | {proDuct.Category,-15} | {proDuct.SerialNumber,-10} | {proDuct.Quantity,-5} | {proDuct.ProductionDate:dd-MM-yyyy,-15} | {proDuct.ExpiryDate:dd-MM-yyyy,-15} |"));
+                Console.WriteLine(Main_Methods.CenterText(line));
             }
         }
-
     }
 }

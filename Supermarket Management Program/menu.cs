@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MainMethodsClass;
 using valid;
 using Admin;
-using System.IO;
-using Supermarket_Management_Program;
+using Customer_Section;
+using productSection;
 
 
 namespace UI_MenuClass
@@ -86,7 +82,7 @@ namespace UI_MenuClass
                     break;
                 case 3:
                     // الخروج من البرنامج
-                    Console.WriteLine("Thank you for using the Supermarket Management Program. Goodbye!");
+                    Main_Methods.WriteSlow("Thank you for using the Supermarket Management Program. Goodbye!",20,0,0);
                     Environment.Exit(0);
                     break;
             }
@@ -106,11 +102,12 @@ namespace UI_MenuClass
             Console.WriteLine(Main_Methods.CenterText("╚══════════════════════════════════════════════════════╝"));
             Console.ForegroundColor = ConsoleColor.White;
             Console.SetCursorPosition(55, 4);
-            customer_name = Validation.ValiDateName(Console.ReadLine(),55,4,0,8);
-            CustomerMenu(customer_name); 
+            var customer =new Customer();
+            Customer.customer_name = Validation.ValiDateName(Console.ReadLine(),55,4,0,9);
+            CustomerMenu(); 
 
         }
-        public static void CustomerMenu(string customer_name)
+        public static void CustomerMenu()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -119,7 +116,7 @@ namespace UI_MenuClass
             Console.WriteLine("1. View Products");
             Console.WriteLine("2. Add Product to Cart");
             Console.WriteLine("3. Remove Product from Cart");
-            Console.WriteLine("4. View my cart")
+            Console.WriteLine("4. View my cart");
             Console.WriteLine("5. Checkout");
             Console.WriteLine("6. Exit to Main Menu");
             Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -151,27 +148,28 @@ namespace UI_MenuClass
             {
                 case 1:
                     // عرض المنتجات
-                    Console.WriteLine("Displaying products...");
-                    // هنا يمكنك إضافة الكود لعرض المنتجات
+                    AdminModule.ViewProducts();
+                    CustomerMenu();
                     break;
                 case 2:
                     // إضافة منتج إلى السلة
-                    Console.WriteLine("Adding a product to the cart...");
-                    // هنا يمكنك إضافة الكود لإضافة منتج إلى السلة
+                    Customer.BuyProduct();
+                    CustomerMenu();
                     break;
                 case 3:
                     // إزالة منتج من السلة
-                    Console.WriteLine("Removing a product from the cart...");
-                    // هنا يمكنك إضافة الكود لإزالة منتج من السلة
+                    Customer.RemoveProductFromCart();
+                    CustomerMenu();
                     break;
                 case 4:
                     //عرض عربة التسوق
-                    Console.WriteLine("View  my cart...");
+                    Customer.ViweCart();
+                    CustomerMenu();
                     break;
                 case 5:
                     // إتمام عملية الشراء
-                    Console.WriteLine("Checking out...");
-                    // هنا يمكنك إضافة الكود لإتمام عملية الشراء
+                    Customer.CheckOutProduct();
+                    CustomerMenu();
                     break;
                 case 6:
                     // العودة إلى القائمة الرئيسية
@@ -195,9 +193,9 @@ namespace UI_MenuClass
             Console.WriteLine(Main_Methods.CenterText("║               [ Press ENTER to Submit ]              ║"));
             Console.WriteLine(Main_Methods.CenterText("╚══════════════════════════════════════════════════════╝"));
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(59, 4); // اعادة تعيين موضع المؤشر لاسم المستخدم
+            Console.SetCursorPosition(59, 4); 
             string user_name = Console.ReadLine();
-            Console.SetCursorPosition(59, 5); // اعادة تعيين موضع المؤشر لكلمة المرور
+            Console.SetCursorPosition(59, 5); 
             string password = Console.ReadLine();
             foreach (AdminModule i in AdminModule.adminList)
             {
@@ -208,11 +206,10 @@ namespace UI_MenuClass
                     AdminMenu();
                 }
             }
-            Console.SetCursorPosition(0, 10); // تعيين موضع المؤشر لعرض رسالة الخطأ
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Invalid username or password. Please try again.");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Main_Methods.WriteSlow("Invalid username or password. Please try again.",20,0,10);
             Console.ResetColor();
-            Console.SetCursorPosition(0, 11); // تعيين موضع المؤشر لعرض رسالة العودة
+            Console.SetCursorPosition(0, 11);
             Console.WriteLine("Press any key to return to the main menu...");
             Console.ReadKey();
             Console.Clear();
@@ -259,22 +256,23 @@ namespace UI_MenuClass
             {
                 case 1:
                     // عرض المنتجات
-                    
+                    Product.Display();
+                    AdminMenu();
                     break;
                 case 2:
                     // إضافة منتج
-                    Console.WriteLine("Adding a new product...");
-                    // هنا يمكنك إضافة الكود لإضافة منتج جديد
+                    AdminModule.AddProduct();
+                    AdminMenu();
                     break;
                 case 3:
                     // إزالة منتج
-                    Console.WriteLine("Removing a product...");
-                    // هنا يمكنك إضافة الكود لإزالة منتج
+                    AdminModule.DeleteProduct();
+                    AdminMenu();
                     break;
                 case 4:
-                    // تحديث منتج
-                    Console.WriteLine("Updating a product...");
-                    // هنا يمكنك إضافة الكود لتحديث منتج
+                    // عرض كل المنتجات القريبة من اتهاء الصلاحية
+                    AdminModule.viewExpiryAlerts();
+                    AdminMenu();
                     break;
                 case 5:
                     // العودة إلى القائمة الرئيسية
