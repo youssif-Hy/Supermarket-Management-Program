@@ -97,7 +97,7 @@ namespace Admin
             Console.SetCursorPosition(57, 6);
             DateTime production = Validation.ValidProduction(Console.ReadLine(),57,6,0,13);
             Console.SetCursorPosition(57, 7);
-            DateTime expiry = Validation.ValidExpiryDate(Console.ReadLine(), 57, 7, 0, 13);
+            DateTime expiry = Validation.ValidExpiryDate(Console.ReadLine(),production, 57, 7, 0, 13);
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.SetCursorPosition(0, 13);
             Main_Methods.WriteSlow("Product saved successfully!\n",20,0,13);

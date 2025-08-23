@@ -44,20 +44,21 @@ namespace valid
             while (true)
             {
                 // التحقق من أن الإدخال هو رقم صحيح
-                if (!int.TryParse(input, out value) && value >3)
+                if (int.TryParse(input, out value) && value > 3)
                 {
-                    Main_Methods.space(title, xaxis1, yaxis1);
+                   Main_Methods.space(title, xaxis1, yaxis1);
+                    return value;
+                }
+                else
+                {
+
+                     Main_Methods.space(title, xaxis1, yaxis1);
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Main_Methods.WriteSlow(title, 20, xaxis1, yaxis1);
                     Main_Methods.space(input, xaxis, yaxis);
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(xaxis, yaxis);
                     input = Console.ReadLine();
-                }
-                else
-                {
-                    Main_Methods.space(title, xaxis1, yaxis1);
-                    return value;
                 }
             }
         }
@@ -107,16 +108,16 @@ namespace valid
         {
             while (true)
             {
-                string error = "The product is exist already or the quantity is to much please enter new product.";
+                string error = "Invalid name or the product is exist already or the quantity is to much please enter new product.";
 
                 Product productfound = Program.products.FirstOrDefault(p => p.Name.ToLower() == name.ToLower());
-                if (name.Length > 3 && !name.Contains("  ")&&name.All(char.IsLetter) && productfound != null && productfound.Quantity >= 3)
+                if (name.Length > 3 && !name.Contains("  ")&& name.All(char.IsLetter) && productfound != null && productfound.Quantity >= 3)
                 {
                     Main_Methods.space(error, xaxis1, yaxis1);
                     return name;
 
                 }
-                else if (name.Length > 3 && !name.Contains("  ") && productfound == null)
+                else if (name.Length > 3 && !name.Contains("  ") && name.All(char.IsLetter) && productfound == null)
                 {
                     Main_Methods.space(error, xaxis1, yaxis1);
                     return name;
@@ -196,17 +197,27 @@ namespace valid
                 }
             }
         }
-        public static DateTime ValidExpiryDate(string ExpiryDate, int xaxis, int yaxis, int xaxis1, int yaxis1)
+        public static DateTime ValidExpiryDate(string ExpiryDate,DateTime production, int xaxis, int yaxis, int xaxis1, int yaxis1)
         {
             while (true)
             {
                 string errorM = "Invalid Expiry Date date, please enter valid date in the format mm/dd/yyyy, try again. ";
                 if (DateTime.TryParse(ExpiryDate, out DateTime Expiry))
                 {
-                    if (Expiry > DateTime.Now)
+                    if (Expiry > DateTime.Now && Expiry > production)
                     {
                         Main_Methods.space(errorM, xaxis1, yaxis1);
                         return Expiry;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.SetCursorPosition(xaxis1, yaxis1);
+                        Console.Write(errorM);
+                        Main_Methods.space(ExpiryDate, xaxis, yaxis);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.SetCursorPosition(xaxis, yaxis);
+                        ExpiryDate = Console.ReadLine();
                     }
                 }
                 // إذا كان تاريخ الميلاد في المستقبل، يطلب من المستخدم إدخال تاريخ آخر

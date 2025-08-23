@@ -208,7 +208,7 @@ namespace UI_MenuClass
                 }
             }
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Main_Methods.WriteSlow("Invalid username or password. Please try again.",20,0,10);
+            Main_Methods.WriteSlow("Invalid username or password. Please try again.\n",20,0,9);
             Console.ResetColor();
             Console.SetCursorPosition(0, 11);
             Console.WriteLine("Press any key to return to the main menu...");
@@ -223,7 +223,8 @@ namespace UI_MenuClass
             Console.WriteLine(Main_Methods.CenterText("Admin section"));
             // هنا يمكنك إضافة المزيد من الخيارات والإجراءات الخاصة بالمسؤول
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("1. View Products av");
+            Console.WriteLine("1. View available products");
+            Console.WriteLine("1. View all products");
             Console.WriteLine("2. Add Product");
             Console.WriteLine("3. Remove Product");
             Console.WriteLine("4. view Expiry Alerts");
