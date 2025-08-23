@@ -86,7 +86,7 @@ namespace valid
                 string error = "The product is exist already or the quantity is to much please enter new product.";
 
                 Product productfound = Program.products.FirstOrDefault(p => p.Name.ToLower() == name.ToLower());
-                if (productfound != null && productfound.Quantity >= 3)
+                if (name.Length > 3 && !name.Contains("  ")&& productfound != null && productfound.Quantity >= 3)
                 {
                     Main_Methods.space(error, xaxis1, yaxis1);
                     return name;

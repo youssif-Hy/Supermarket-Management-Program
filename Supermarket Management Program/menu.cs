@@ -222,7 +222,7 @@ namespace UI_MenuClass
             Console.WriteLine(Main_Methods.CenterText("Admin section"));
             // هنا يمكنك إضافة المزيد من الخيارات والإجراءات الخاصة بالمسؤول
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("1. View Products");
+            Console.WriteLine("1. View Products av");
             Console.WriteLine("2. Add Product");
             Console.WriteLine("3. Remove Product");
             Console.WriteLine("4. view Expiry Alerts");

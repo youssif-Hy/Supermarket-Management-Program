@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using MainMethodsClass;
 using Supermarket_Management_Program;
+using UI_MenuClass;
 using valid;
 
 namespace productSection
@@ -37,35 +38,20 @@ namespace productSection
             }
         }
         //Method
-        public static void Display()
+        public static void Display(bool isadmin)
         {
             Console.Clear();
-            if (File.Exists(Program.path))
+            if (Program.ReadFromFill())
             {
-                string[] fileLines = File.ReadAllLines(Program.path);
-                foreach (string line1 in fileLines)
+                if (isadmin)
                 {
-                    if (line1 == "")
-                    {
-                        continue;
-                    }
-                    string[] part = line1.Split(',');
-                    Product productinfo = new Product(part[0], part[1], int.Parse(part[2]), DateTime.Parse(part[3]), DateTime.Parse(part[4]));
-                    if (Validation.isExist(Program.products, part[0]))
-                    {
-                        Program.products.Add(productinfo);
-                    }
+                    menu.AdminMenu();
                 }
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Main_Methods.WriteSlow("File not Exist",20,0,0);
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write("press any kay to rutern Customer Menu...");
-                Console.ResetColor();
-                Console.ReadKey();
-                Console.Clear();
+                else
+                {
+                    menu.CustomerMenu();
+
+                }
             }
             Console.WriteLine(Main_Methods.CenterText("+-----------------+-----------------+---------+-----------------+-----------------+--------------+"));
             Console.WriteLine(Main_Methods.CenterText("| Name            | Category        | Qty     | Production Date | Expiry Date     | Status       |"));
@@ -86,7 +72,7 @@ namespace productSection
                 ); Console.WriteLine(Main_Methods.CenterText(line));
             }
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write("press any kay to rutern Customer Menu...");
+            Console.Write("press any kay to rutern to Menu...");
             Console.ResetColor();
             Console.ReadKey();
             Console.Clear();
