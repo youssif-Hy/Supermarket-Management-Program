@@ -104,7 +104,7 @@ namespace UI_MenuClass
             Console.ForegroundColor = ConsoleColor.White;
             Console.SetCursorPosition(55, 4);
             var customer =new Customer();
-            Customer.customer_name = Validation.ValiDateName(Console.ReadLine(),55,4,0,9);
+            Customer.customer_name = Validation.ValiDateName(Console.ReadLine(),55,4,0,8);
             CustomerMenu(); 
 
         }
@@ -114,12 +114,13 @@ namespace UI_MenuClass
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine(Main_Methods.CenterText("Customer section"));
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("1. View Products");
-            Console.WriteLine("2. Add Product to Cart");
-            Console.WriteLine("3. Remove Product from Cart");
-            Console.WriteLine("4. View my cart");
-            Console.WriteLine("5. Checkout");
-            Console.WriteLine("6. Exit to Main Menu");
+            Console.WriteLine("1. View available products");
+            Console.WriteLine("2. View all products");
+            Console.WriteLine("3. Add Product to Cart");
+            Console.WriteLine("4. Remove Product from Cart");
+            Console.WriteLine("5. View my cart");
+            Console.WriteLine("6. Checkout");
+            Console.WriteLine("7. Exit to Main Menu");
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("Enter your choice: ");
             Console.ResetColor();
@@ -127,10 +128,10 @@ namespace UI_MenuClass
             while (true)
             {
                 // قراءة إدخال المستخدم والتحقق من صحته
-                choice = Validation.ValidateInput(Console.ReadLine(), 18, 4, 0, 5);
+                choice = Validation.ValidateInput(Console.ReadLine(), 18, 8, 0, 9);
                 string errorMessage = "Invalid input, please enter a number between 1 and 5.";
                 // إذا كان الخيار غير صحيح، عرض رسالة الخطأ
-                if (choice < 1 || choice > 6)
+                if (choice < 1 || choice > 7)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Main_Methods.WriteSlow(errorMessage, 20, 0, 5);
@@ -149,30 +150,33 @@ namespace UI_MenuClass
             {
                 case 1:
                     // عرض المنتجات
-                    AdminModule.ViewProducts(false);
-                    CustomerMenu();
+                    AdminModule.ViewProducts(true);
+                    AdminMenu();
                     break;
                 case 2:
+                    Product.Display(true);
+                    break;
+                case 3:
                     // إضافة منتج إلى السلة
                     MenuBuyProduct();
                     CustomerMenu();
                     break;
-                case 3:
+                case 4:
                     // إزالة منتج من السلة
                     Customer.RemoveProductFromCart();
                     CustomerMenu();
                     break;
-                case 4:
+                case 5:
                     //عرض عربة التسوق
                     Customer.ViweCart();
                     CustomerMenu();
                     break;
-                case 5:
+                case 6:
                     // إتمام عملية الشراء
                     Customer.CheckOutProduct();
                     CustomerMenu();
                     break;
-                case 6:
+                case 7:
                     // العودة إلى القائمة الرئيسية
                     Console.Clear();
                     MainMenu();
@@ -224,11 +228,11 @@ namespace UI_MenuClass
             // هنا يمكنك إضافة المزيد من الخيارات والإجراءات الخاصة بالمسؤول
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("1. View available products");
-            Console.WriteLine("1. View all products");
-            Console.WriteLine("2. Add Product");
-            Console.WriteLine("3. Remove Product");
-            Console.WriteLine("4. view Expiry Alerts");
-            Console.WriteLine("5. Exit to Main Menu");
+            Console.WriteLine("2. View all products");
+            Console.WriteLine("3. Add Product");
+            Console.WriteLine("4. Remove Product");
+            Console.WriteLine("5. view Expiry Alerts");
+            Console.WriteLine("6. Exit to Main Menu");
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("Enter your choice: ");
             Console.ResetColor();
@@ -236,21 +240,21 @@ namespace UI_MenuClass
             while (true)
             {
                 // قراءة إدخال المستخدم والتحقق من صحته
-                choice = Validation.ValidateInput(Console.ReadLine(), 18, 4, 0, 5);
+                choice = Validation.ValidateInput(Console.ReadLine(), 18, 7, 0, 8);
                 string errorMessage = "Invalid input, please enter a number between 1 and 5.";
                 // إذا كان الخيار غير صحيح، عرض رسالة الخطأ
-                if (choice < 1 || choice > 5)
+                if (choice < 1 || choice > 6)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Main_Methods.WriteSlow(errorMessage, 20, 0, 5);
+                    Main_Methods.WriteSlow(errorMessage, 20, 0, 9);
                     Console.ForegroundColor = ConsoleColor.White;
-                    Main_Methods.space(choice.ToString(), 18, 4);
+                    Main_Methods.space(choice.ToString(), 18, 8);
                 }
                 // إذا كان الإدخال صحيحًا، الخروج من الحلقة
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.White;
-                    Main_Methods.space(errorMessage, 0, 5);
+                    Main_Methods.space(errorMessage, 0, 9);
                     break;
                 }
             }
@@ -258,25 +262,28 @@ namespace UI_MenuClass
             {
                 case 1:
                     // عرض المنتجات
-                    Product.Display(true);
+                    AdminModule.ViewProducts(true);
                     AdminMenu();
                     break;
                 case 2:
+                    Product.Display(true);
+                    break;
+                case 3:
                     // إضافة منتج
                     AdminModule.AddProduct();
                     AdminMenu();
                     break;
-                case 3:
+                case 4:
                     // إزالة منتج
                     AdminModule.DeleteProduct();
                     AdminMenu();
                     break;
-                case 4:
+                case 5:
                     // عرض كل المنتجات القريبة من اتهاء الصلاحية
                     AdminModule.ViewExpiryAlerts();
                     AdminMenu();
                     break;
-                case 5:
+                case 6:
                     // العودة إلى القائمة الرئيسية
                     Console.Clear();
                     MainMenu();
@@ -285,6 +292,7 @@ namespace UI_MenuClass
         }
         public static void MenuBuyProduct()
         {
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
             Console.WriteLine(Main_Methods.CenterText("|                                     add to cart                                           |"));

@@ -125,6 +125,7 @@ namespace Admin
         {
             if (Program.ReadFromFill())
                 menu.AdminMenu();
+            Console.Clear();
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------+"));
             Console.WriteLine(Main_Methods.CenterText("|                               Delete Product                            |"));
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------+"));
