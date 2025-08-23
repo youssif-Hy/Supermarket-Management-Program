@@ -28,6 +28,8 @@ namespace Customer_Section
                 productsToBuyProduct.Quantity -= quantity;
                 Program.products.Add(productsToBuyProduct);
                 RewriteInFill(Program.products);
+                productsToBuyProduct.Quantity = quantity;
+                cart.Add(productsToBuyProduct);
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("The product has been added to your cart.");
             }
