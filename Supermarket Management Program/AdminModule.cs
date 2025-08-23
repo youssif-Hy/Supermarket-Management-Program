@@ -199,7 +199,7 @@ namespace Admin
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
             Console.WriteLine(Main_Methods.CenterText("|                                    Chich Products Expir                                   |"));
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
-            Console.WriteLine(Main_Methods.CenterText("| Please enter the Name of the product you went cheched it:                                 |"));
+            Console.WriteLine(Main_Methods.CenterText("| Please enter the Name of the product you went chiched it:                                 |"));
             Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
             Console.SetCursorPosition(75, 4);
             string name = Console.ReadLine();
