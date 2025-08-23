@@ -92,7 +92,7 @@ namespace valid
                     return name;
 
                 }
-                else if (productfound == null)
+                else if (name.Length > 3 && !name.Contains("  ") && productfound == null)
                 {
                     Main_Methods.space(error, xaxis1, yaxis1);
                     return name;

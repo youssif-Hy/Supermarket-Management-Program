@@ -4,6 +4,7 @@ using valid;
 using Admin;
 using Customer_Section;
 using productSection;
+using System.Diagnostics;
 
 
 namespace UI_MenuClass
@@ -256,7 +257,7 @@ namespace UI_MenuClass
             {
                 case 1:
                     // عرض المنتجات
-                    Product.Display();
+                    Product.Display(true);
                     AdminMenu();
                     break;
                 case 2:
