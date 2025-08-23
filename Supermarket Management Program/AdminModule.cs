@@ -192,5 +192,39 @@ namespace Admin
             Console.Clear();
             menu.AdminMenu();
         }
+        public static void ChechProductsExpir()
+        {
+            if (Program.ReadFromFill())
+                menu.AdminMenu();
+            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
+            Console.WriteLine(Main_Methods.CenterText("|                                    Chech Products Expir                                   |"));
+            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
+            Console.WriteLine(Main_Methods.CenterText("| Please enter the Name of the product you went cheched it:                                 |"));
+            Console.WriteLine(Main_Methods.CenterText("+-------------------------------------------------------------------------------------------+"));
+            Console.SetCursorPosition(75, 4);
+            string name = Console.ReadLine();
+            Product ProductsExpir = Program.products.FirstOrDefault(p => p.Name == name);
+            if (ProductsExpir != null )
+            {
+                bool chek = ProductsExpir.Expiry();
+                if (chek)
+                {
+                    Console.WriteLine("💀Near Expiry");
+                }
+                else
+                {
+                    Console.WriteLine("👌Valid");
+                }
+            }
+            else
+            {
+                Console.WriteLine("the is not found.");
+            }
+            Console.Write("press any kay to rutern Customer Menu...");
+            Console.ResetColor();
+            Console.ReadKey();
+            Console.Clear();
+            menu.AdminMenu();
+        }
     }
 }

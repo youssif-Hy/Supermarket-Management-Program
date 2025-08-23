@@ -113,7 +113,7 @@ namespace Customer_Section
             foreach (var item in cart)
             {
                 Console.WriteLine(Main_Methods.CenterText($"| {item.Name,-15}(s) | {item.Quantity,-5} |"));
-                Console.WriteLine(Main_Methods.CenterText("+-----------------+----------+--------------------+"));
+                Console.WriteLine(Main_Methods.CenterText("+-----------------+----------+"));
             }
             Console.WriteLine($"Thanks {customer_name} for your purchase!");
             cart.Clear(); // Clear the cart after checkout

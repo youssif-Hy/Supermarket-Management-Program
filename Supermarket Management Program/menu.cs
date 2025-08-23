@@ -233,7 +233,8 @@ namespace UI_MenuClass
             Console.WriteLine("3. Add Product");
             Console.WriteLine("4. Remove Product");
             Console.WriteLine("5. view Expiry Alerts");
-            Console.WriteLine("6. Exit to Main Menu");
+            Console.WriteLine("6. Chech Products Expiry");
+            Console.WriteLine("7. Exit to Main Menu");
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("Enter your choice: ");
             Console.ResetColor();
@@ -241,10 +242,10 @@ namespace UI_MenuClass
             while (true)
             {
                 // قراءة إدخال المستخدم والتحقق من صحته
-                choice = Validation.ValidateInput(Console.ReadLine(), 18, 7, 0, 8);
-                string errorMessage = "Invalid input, please enter a number between 1 and 5.";
+                choice = Validation.ValidateInput(Console.ReadLine(), 18, 8, 0, 9);
+                string errorMessage = "Invalid input, please enter a number between 1 and 7.";
                 // إذا كان الخيار غير صحيح، عرض رسالة الخطأ
-                if (choice < 1 || choice > 6)
+                if (choice < 1 || choice > 7)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Main_Methods.WriteSlow(errorMessage, 20, 0, 9);
@@ -286,6 +287,10 @@ namespace UI_MenuClass
                     AdminMenu();
                     break;
                 case 6:
+                    AdminModule.ChechProductsExpir();
+                    AdminMenu();
+                    break;
+                case 7:
                     // العودة إلى القائمة الرئيسية
                     Console.Clear();
                     MainMenu();
